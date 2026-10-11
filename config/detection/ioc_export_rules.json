@@ -1,0 +1,32 @@
+{
+  "rejection_reason_order": [
+    "attack_technique_not_ioc",
+    "known_benign_vendor",
+    "non_public_network_indicator",
+    "network_not_endpoint_artifact",
+    "pseudo_domain",
+    "sandbox_environment_path",
+    "cape_agent_path",
+    "generic_root_path",
+    "generic_windows_system32_dll",
+    "generic_windows_syswow64_dll",
+    "generic_windows_root_dll",
+    "generic_windows_system_dll",
+    "generic_windows_lolbin_without_context",
+    "generic_windows_driver_service_registry",
+    "generic_powershell_base_file",
+    "generic_mutex",
+    "generic_dotnet_gac_artifact",
+    "generic_dotnet_nativeimage_artifact",
+    "generic_powershell_resource_artifact",
+    "generic_device_path",
+    "generic_named_pipe",
+    "generic_wmi_path",
+    "generic_powershell_profile_path",
+    "generic_registry_path",
+    "generic_locale_registry_path",
+    "generic_windows_service_path",
+    "generic_process_without_context",
+    "missing_endpoint_context"
+  ]
+}

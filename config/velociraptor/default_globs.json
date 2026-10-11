@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "registry_persistence": {
+      "parameter_name": "RegistryGlobs",
+      "default": "HKEY_USERS/*/Software/Microsoft/Windows/CurrentVersion/Run/**,HKEY_USERS/*/Software/Microsoft/Windows/CurrentVersion/RunOnce/**,HKEY_LOCAL_MACHINE/Software/Microsoft/Windows/CurrentVersion/Run/**,HKEY_LOCAL_MACHINE/Software/Microsoft/Windows/CurrentVersion/RunOnce/**,HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/Winlogon/**,HKEY_LOCAL_MACHINE/System/CurrentControlSet/Services/**,HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/Image File Execution Options/**,HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/Schedule/TaskCache/**"
+    },
+    "ransom_note_glob": {
+      "parameter_name": "RansomNoteGlobs",
+      "default": "C:/*.txt,C:/*.html,C:/*.hta,C:/*.md,C:/Users/*/AppData/Local/Temp/**,C:/Users/*/AppData/Roaming/**,C:/Users/*/Desktop/**,C:/Users/*/Documents/**,C:/Users/*/Downloads/**,C:/Users/Public/**,C:/ProgramData/**,C:/Program Files/**,C:/Program Files (x86)/**,C:/PerfLogs/**,C:/Documents and Settings/**,C:/vr-malware-test/**,C:/Windows/Temp/**"
+    },
+    "file_glob": {
+      "parameter_name": "FileGlobs",
+      "default": "C:/Users/*/AppData/Local/Temp/**,C:/Users/*/AppData/Roaming/**,C:/Users/*/Desktop/**,C:/Users/*/Documents/**,C:/Users/*/Downloads/**,C:/Users/Public/**,C:/ProgramData/**,C:/vr-malware-test/**,C:/Windows/Temp/**"
+    }
+  }
+}

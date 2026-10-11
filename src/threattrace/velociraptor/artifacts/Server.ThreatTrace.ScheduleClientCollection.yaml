@@ -1,0 +1,20 @@
+name: Server.ThreatTrace.ScheduleClientCollection
+description: |
+  Schedule exactly one client artifact collection through supported server
+  artifact execution and return the created flow metadata.
+type: SERVER
+parameters:
+  - name: TargetClientId
+    description: Velociraptor client id to schedule on.
+  - name: ArtifactName
+    description: Artifact name to schedule.
+sources:
+  - query: |
+      LET collection <= collect_client(
+        client_id=TargetClientId,
+        artifacts=ArtifactName,
+        env=dict(),
+        urgent=TRUE
+      )
+      SELECT collection.request AS Flow
+      FROM scope()

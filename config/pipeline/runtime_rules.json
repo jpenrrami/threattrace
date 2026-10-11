@@ -1,0 +1,17 @@
+{
+  "max_total_retries": 48,
+  "max_inline_polls": 15,
+  "poll_delay_rules": {
+    "after_6_hours_seconds": 21600,
+    "after_2_hours_seconds": 7200,
+    "after_30_minutes_seconds": 1800,
+    "after_2_hours_min_delay_seconds": 180,
+    "after_30_minutes_min_delay_seconds": 120,
+    "after_retry_count": 12,
+    "after_retry_min_delay_seconds": 90
+  },
+  "fetch_report_retry": {
+    "base_exponent": 2,
+    "max_delay_seconds": 600
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "retry": {
+    "total": 5,
+    "backoff_factor": 2,
+    "status_forcelist": [429, 500, 502, 503, 504],
+    "allowed_methods": ["GET", "POST"],
+    "raise_on_status": false
+  },
+  "submission": {
+    "post_timeout_floor_seconds": 120,
+    "empty_task_retry_sleep_seconds": 1,
+    "payload_retry_sleep_seconds": 2
+  },
+  "polling": {
+    "wait_for_report_max_attempts": 120,
+    "wait_for_report_delay_seconds": 30,
+    "fetch_report_retries": 20,
+    "fetch_report_delay_seconds": 15,
+    "backoff_cap_seconds": 600
+  },
+  "preflight": {
+    "tasks_endpoint": "/tasks/list/",
+    "machines_endpoint": "/machines/list/"
+  }
+}

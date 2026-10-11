@@ -1,0 +1,123 @@
+{
+  "groups": [
+    {
+      "name": "Windows.ThreatTrace.Ransomware.RansomNotes",
+      "description": "Ransom note file indicators from refined endpoint IoCs",
+      "query_profile": "ransom_note_file_glob",
+      "glob_profile": "ransom_note_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.EncryptedExtensions",
+      "description": "Ransomware encrypted-extension indicators",
+      "query_profile": "encrypted_extension_glob",
+      "glob_profile": "file_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.SuspiciousDroppedFiles",
+      "description": "Suspicious dropped files outside generic Windows runtime paths",
+      "query_profile": "suspicious_dropped_file_glob",
+      "glob_profile": "file_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.RansomwareBinaries",
+      "description": "Known or strongly suspicious ransomware binary paths",
+      "query_profile": "ransomware_binary_glob",
+      "glob_profile": "file_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.LOLBins",
+      "description": "Suspicious LOLBin command or file indicators with ransomware context",
+      "query_profile": "process_trace",
+      "glob_profile": "file_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.TTP0009.ProxyExecution",
+      "description": "T1218 proxy execution via rundll32/regsvr32/mshta loading payloads from writable paths or URLs",
+      "query_profile": "process_trace",
+      "glob_profile": "file_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.ShadowCopyTampering",
+      "description": "Shadow copy deletion or tampering indicators",
+      "query_profile": "process_trace",
+      "glob_profile": "file_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.BootRecoveryTampering",
+      "description": "Boot recovery or backup tampering indicators",
+      "query_profile": "process_trace",
+      "glob_profile": "file_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.Persistence.Registry",
+      "description": "Concrete suspicious registry persistence indicators",
+      "query_profile": "registry_persistence",
+      "glob_profile": "registry_persistence"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.Persistence.Services",
+      "description": "Concrete suspicious service persistence indicators",
+      "query_profile": "registry_persistence",
+      "glob_profile": "registry_persistence"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.Persistence.ScheduledTasks",
+      "description": "Suspicious scheduled task persistence indicators",
+      "query_profile": "registry_persistence",
+      "glob_profile": "registry_persistence"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.Mutexes",
+      "description": "Refined ransomware mutex indicators",
+      "query_profile": "mutex",
+      "glob_profile": "file_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.NetworkIndicators",
+      "description": "Refined public network indicators",
+      "query_profile": "network_eventlog",
+      "glob_profile": "file_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.ExactIoCMatches",
+      "description": "Refined endpoint IoCs not assigned to a specialized group",
+      "query_profile": "exact_ioc_bundle",
+      "glob_profile": "file_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.BehavioralComposite",
+      "description": "Correlated ransomware behavior: bait file churn, impact tampering, proxy execution, live suspicious process, memory and network context",
+      "query_profile": "behavioral_composite",
+      "glob_profile": "ransom_note_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.BehavioralSignals",
+      "description": "Correlated ransomware behavior from live process, event log, bait churn, encrypted extensions, and memory context",
+      "query_profile": "behavioral_composite",
+      "glob_profile": "ransom_note_glob"
+    },
+    {
+      "name": "Windows.ThreatTrace.Ransomware.CorrelatedEvidenceBundle",
+      "description": "Correlated ransomware-relevant evidence; not calibrated confidence",
+      "query_profile": "high_confidence_bundle",
+      "glob_profile": "file_glob"
+    }
+  ],
+  "high_confidence_groups": [
+    "Windows.ThreatTrace.Ransomware.RansomNotes",
+    "Windows.ThreatTrace.Ransomware.EncryptedExtensions",
+    "Windows.ThreatTrace.Ransomware.RansomwareBinaries",
+    "Windows.ThreatTrace.Ransomware.ShadowCopyTampering",
+    "Windows.ThreatTrace.Ransomware.BootRecoveryTampering"
+  ],
+  "exact_ioc_policy": {
+    "min_confidence": 0.9,
+    "min_sample_count": 2,
+    "allow_risks": [
+      "low"
+    ],
+    "allow_generalization_values": [
+      "high"
+    ]
+  }
+}

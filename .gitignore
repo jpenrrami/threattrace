@@ -1,0 +1,26 @@
+# Secrets and private local configuration
+.env
+.env.*
+!.env.example
+!**/*.env.example
+
+# Python environment, caches and builds
+.venv/
+__pycache__/
+.ruff_cache/
+*.egg-info/
+/build/
+
+# ThreatTrace runtime and generated deliverables
+/runtime_storage/
+/outputs/
+/output/
+/validation_samples/
+/tmp/
+/reports/
+/release/
+/dist/
+
+# Local development metadata
+.DS_Store
+/AGENTS.md

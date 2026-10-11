@@ -1,0 +1,17 @@
+{
+  "states": {
+    "ready_for_execution": "READY_FOR_EXECUTION",
+    "ready_for_manual_execution": "READY_FOR_MANUAL_EXECUTION",
+    "running_sample": "RUNNING_SAMPLE",
+    "sample_staged": "SAMPLE_STAGED",
+    "sample_executed": "SAMPLE_EXECUTED",
+    "observation_wait": "OBSERVATION_WAIT",
+    "collections_running": "COLLECTIONS_RUNNING",
+    "exporting_results": "EXPORTING_RESULTS",
+    "sample_done": "SAMPLE_DONE",
+    "sample_failed": "SAMPLE_FAILED",
+    "sample_blocked": "SAMPLE_BLOCKED",
+    "batch_done": "BATCH_DONE",
+    "batch_failed": "BATCH_FAILED"
+  }
+}

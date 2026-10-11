@@ -1,0 +1,35 @@
+name: quality
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install '.[dev]'
+      - run: ruff check src
+      - run: python -m compileall -q src
+      - run: python -m pip wheel --no-build-isolation --no-deps --wheel-dir dist .
+      - run: python -m venv wheel-venv
+      - run: wheel-venv/bin/python -m pip install dist/*.whl
+      - run: wheel-venv/bin/python -c 'import threattrace'
+      - run: wheel-venv/bin/threattrace --help
+      - run: wheel-venv/bin/threattrace db --help
+      - run: wheel-venv/bin/threattrace ingest --help
+      - run: wheel-venv/bin/threattrace cape --help
+      - run: wheel-venv/bin/threattrace detection --help
+      - run: wheel-venv/bin/threattrace vr --help
+      - run: wheel-venv/bin/python -m pip check
+      - run: wheel-venv/bin/python -m pip install pip-audit
+      - run: wheel-venv/bin/pip-audit

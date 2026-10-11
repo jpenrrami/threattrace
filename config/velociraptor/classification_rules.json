@@ -1,0 +1,79 @@
+{
+  "default_group": "Windows.ThreatTrace.Ransomware.ExactIoCMatches",
+  "rules": [
+    {
+      "group": "Windows.ThreatTrace.Ransomware.NetworkIndicators",
+      "category_in": ["domain", "url", "ip"]
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.Mutexes",
+      "category": "mutex"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.ShadowCopyTampering",
+      "context_regex": "vssadmin|shadowcopy|shadow_copy|delete shadows"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.BootRecoveryTampering",
+      "context_regex": "bcdedit|wbadmin|recoveryenabled|boot|backup_tampering"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.Persistence.Registry",
+      "category": "registry",
+      "value_regex": "\\\\(?:run|runonce|winlogon)\\\\?"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.Persistence.Services",
+      "category": "registry",
+      "value_regex": "\\\\services\\\\"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.Persistence.ScheduledTasks",
+      "category": "registry",
+      "value_regex": "scheduled|schtasks|\\\\tasks\\\\"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.Persistence.Services",
+      "category": "process",
+      "value_regex": "\\b(?:sc|sc\\.exe)\\s+(?:create|config|start|failure|sdset)\\b|\\bnet(?:\\.exe)?\\s+start\\b|\\b(?:new-service|set-service|start-service)\\b"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.Persistence.ScheduledTasks",
+      "category": "process",
+      "value_regex": "\\bschtasks(?:\\.exe)?\\s+(?:/|-)(?:create|change|run|delete)\\b|\\b(?:register-scheduledtask|start-scheduledtask|unregister-scheduledtask)\\b"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.ShadowCopyTampering",
+      "category": "process",
+      "value_regex": "\\b(?:vssadmin|wmic|powershell)(?:\\.exe)?\\b.*\\b(?:delete\\s+shadows|shadowcopy\\s+delete|resize\\s+shadowstorage)\\b"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.BootRecoveryTampering",
+      "category": "process",
+      "value_regex": "\\b(?:bcdedit|wbadmin|reagentc)(?:\\.exe)?\\b.*\\b(?:recoveryenabled|ignoreallfailures|delete\\s+catalog|disable)\\b"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.RansomwareBinaries",
+      "value_regex": "\\\\(?:mssecsvc|mssecsvr|tasksche)\\.exe$"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.LOLBins",
+      "context_regex": "(?:^|\\\\|\\b)(vssadmin|bcdedit|wbadmin|wevtutil|schtasks|cipher|wmic|powershell|cmd|wscript|cscript|mshta|rundll32|regsvr32)(?:\\.exe)?\\b"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.RansomNotes",
+      "category": "file",
+      "value_regex": "(?:akira[_ -]?readme|read[_ -]?me|recover|decrypt|restore[_ -]?files|how[_ -]?to|help[_ -]?decrypt|readme_now|restore-my-files).*\\.(?:txt|html|hta|md)$"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.EncryptedExtensions",
+      "category": "file",
+      "value_regex": "\\\\[^\\\\]+\\.(?:arika|locked|encrypted|crypt|cryp1|pay|ransom|wncry)$"
+    },
+    {
+      "group": "Windows.ThreatTrace.Ransomware.SuspiciousDroppedFiles",
+      "category": "file",
+      "value_regex": "(?:\\\\\\$recycle\\.bin\\\\|\\\\recovery\\\\oem\\\\|\\\\users\\\\public\\\\|\\\\programdata\\\\|\\\\users\\\\[^\\\\]+\\\\appdata\\\\(?:local|locallow|roaming)\\\\|\\\\windows\\\\temp\\\\|\\\\temp\\\\|\\\\downloads\\\\|\\\\desktop\\\\|\\\\[^\\\\]+\\.(?:bat|cmd|ps1|vbs|js|jse|wsf|hta|exe|dll|scr|lnk)$|\\\\[a-f0-9]{16,}\\.[a-z0-9]{2,8}$)"
+    }
+  ]
+}

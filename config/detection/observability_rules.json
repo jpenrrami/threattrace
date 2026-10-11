@@ -1,0 +1,138 @@
+{
+  "regex": {
+    "control_chars": "[\\x00-\\x1f\\x7f]",
+    "domain": "^(?=.{1,253}$)(?!-)(?:[a-z0-9-]{1,63}\\.)+[a-z]{2,63}$",
+    "lolbin": "\\b(powershell|cmd(?:\\.exe)?|wscript|cscript|mshta|rundll32|regsvr32|bitsadmin|certutil|vssadmin|wbadmin|bcdedit|wevtutil|wmic|schtasks)\\b"
+  },
+  "registry_hive_aliases": {
+    "hkcu": "hkey_current_user",
+    "hklm": "hkey_local_machine",
+    "hkcr": "hkey_classes_root",
+    "hku": "hkey_users",
+    "hkcc": "hkey_current_config"
+  },
+  "prioritized_behaviors": [
+    "shadow_copy_deletion",
+    "backup_tampering",
+    "ransom_note_creation",
+    "mass_file_modification",
+    "ransomware_extension_activity",
+    "registry_persistence",
+    "scheduled_tasks",
+    "service_creation",
+    "defender_tampering",
+    "credential_access",
+    "process_injection",
+    "process_hollowing",
+    "crypto_activity"
+  ],
+  "behavior_categories": [
+    "impact",
+    "persistence",
+    "ransom_note",
+    "process_execution",
+    "file_activity",
+    "binary",
+    "encryption",
+    "proxy"
+  ],
+  "atomic_ioc_categories": [
+    "exact_ioc",
+    "sha256",
+    "sha1",
+    "md5",
+    "domain",
+    "ip",
+    "url",
+    "file",
+    "process",
+    "registry",
+    "mutex",
+    "service",
+    "task",
+    "command"
+  ],
+  "ioc_type_rules": {
+    "process": {
+      "suggested_detector": "velociraptor_event_query",
+      "observability": ["windows_event_logs", "sysmon", "velociraptor"],
+      "endpoint_observable": true,
+      "match_mode": "regex",
+      "match_regex": "lolbin",
+      "risk_if_match": "medium",
+      "risk_else": "high",
+      "generalization_if_match": "high",
+      "generalization_else": "medium"
+    },
+    "registry": {
+      "suggested_detector": "velociraptor_registry_query",
+      "observability": ["sysmon", "velociraptor"],
+      "endpoint_observable": true,
+      "match_mode": "contains_any",
+      "match_values": ["\\run", "\\runonce", "\\services", "winlogon"],
+      "risk_if_match": "medium",
+      "risk_else": "high",
+      "generalization_if_match": "high",
+      "generalization_else": "medium"
+    },
+    "file": {
+      "suggested_detector": "velociraptor_file_query",
+      "observability": ["sysmon", "velociraptor"],
+      "endpoint_observable": true,
+      "match_mode": "contains_any",
+      "match_values": ["decrypt", "restore", "ransom", ".locked", ".encrypted"],
+      "risk_if_match": "low",
+      "risk_else": "medium",
+      "generalization_if_match": "high",
+      "generalization_else": "medium"
+    },
+    "network": {
+      "suggested_detector": "network_or_endpoint_dns_query",
+      "observability": ["network_telemetry", "sysmon", "velociraptor"],
+      "endpoint_observable": true,
+      "false_positive_risk": "medium",
+      "generalization_value": "medium"
+    },
+    "mutex": {
+      "suggested_detector": "velociraptor_custom_collection",
+      "observability": ["velociraptor"],
+      "endpoint_observable": true,
+      "false_positive_risk": "medium",
+      "generalization_value": "medium"
+    },
+    "default": {
+      "suggested_detector": "manual_review",
+      "observability": ["cape_only_or_high_cost"],
+      "endpoint_observable": false,
+      "false_positive_risk": "unknown",
+      "generalization_value": "unknown"
+    }
+  },
+  "behavior_rules": {
+    "prioritized": {
+      "suggested_detector": "behavioral_vql_or_event_query",
+      "observability": ["sysmon", "velociraptor", "windows_event_logs"],
+      "endpoint_observable": true,
+      "false_positive_risk": "medium",
+      "generalization_value": "high"
+    },
+    "prioritized_low_risk_patterns": [
+      "shadow_copy_deletion",
+      "backup_tampering"
+    ],
+    "default": {
+      "suggested_detector": "velociraptor_hunt_query",
+      "observability": ["velociraptor"],
+      "endpoint_observable": true,
+      "false_positive_risk": "medium",
+      "generalization_value": "medium"
+    }
+  },
+  "ranking_score_by_risk": {
+    "low": 0.95,
+    "medium": 0.8,
+    "high": 0.55,
+    "unknown": 0.4
+  },
+  "behavior_ranking_score": 0.95
+}

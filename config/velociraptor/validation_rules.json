@@ -1,0 +1,33 @@
+{
+  "result_root": "runtime_storage/velociraptor_validation",
+  "detection_archive_root": "runtime_storage/velociraptor_detections",
+  "validation_source": "velociraptor_client_validation",
+  "dataset_role": "endpoint_validation",
+  "default_binary": "velociraptor",
+  "default_http_bind": "127.0.0.1",
+  "supported_result_files": [
+    "velociraptor_collection_summary.json",
+    "artifact_hits.json"
+  ],
+  "artifact_definitions_dir_candidates": [
+    "runtime_storage/velociraptor_artifacts"
+  ],
+  "threattrace_artifacts": [
+    "Windows.ThreatTrace.Ransomware.SuspiciousDroppedFiles",
+    "Windows.ThreatTrace.Ransomware.RansomNotes",
+    "Windows.ThreatTrace.Ransomware.EncryptedExtensions",
+    "Windows.ThreatTrace.Ransomware.RansomwareBinaries",
+    "Windows.ThreatTrace.Ransomware.ShadowCopyTampering",
+    "Windows.ThreatTrace.Ransomware.BootRecoveryTampering",
+    "Windows.ThreatTrace.Ransomware.LOLBins",
+    "Windows.ThreatTrace.Ransomware.TTP0009.ProxyExecution",
+    "Windows.ThreatTrace.Ransomware.Persistence.Registry",
+    "Windows.ThreatTrace.Ransomware.NetworkIndicators",
+    "Windows.ThreatTrace.Ransomware.ExactIoCMatches",
+    "Windows.ThreatTrace.Ransomware.Mutexes",
+    "Windows.ThreatTrace.Ransomware.Persistence.Services",
+    "Windows.ThreatTrace.Ransomware.Persistence.ScheduledTasks",
+    "Windows.ThreatTrace.Ransomware.BehavioralSignals",
+    "Windows.ThreatTrace.Ransomware.CorrelatedEvidenceBundle"
+  ]
+}

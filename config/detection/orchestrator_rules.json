@@ -1,0 +1,23 @@
+{
+  "max_ioc_items_per_category": 50000,
+  "truncate_normalized_keys": [
+    "domains",
+    "ips",
+    "urls",
+    "suspicious_domains",
+    "network_indicators"
+  ],
+  "default_threat_intel": {
+    "ttps": [],
+    "family_hints": [],
+    "campaign_features": {},
+    "sample_category": "unknown",
+    "campaign_ready": false
+  },
+  "default_scores": {
+    "threat_score": 0,
+    "severity_score": 0,
+    "confidence_score": 0,
+    "risk_level": "low"
+  }
+}

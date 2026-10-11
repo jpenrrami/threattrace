@@ -1,0 +1,74 @@
+{
+  "feature_groups": {
+    "persistence": [
+      {"name": "persistence_indicators", "source": "normalized.persistence_indicators", "mode": "list_count", "per_item": 15, "max": 45},
+      {"name": "service_creation", "source": "normalized.services", "mode": "list_count", "per_item": 10, "max": 30},
+      {"name": "scheduled_task_creation", "source": "normalized.scheduled_tasks", "mode": "list_count", "per_item": 10, "max": 30},
+      {"name": "wmi_persistence", "source": "attack_patterns.wmi_persistence", "mode": "bool", "weight": 25}
+    ],
+    "ransomware": [
+      {"name": "ransomware_indicators", "source": "normalized.ransomware_indicators", "mode": "list_count", "per_item": 20, "max": 60},
+      {"name": "ransom_note_creation", "source": "normalized.ransom_notes", "mode": "list_count", "per_item": 15, "max": 45},
+      {"name": "file_extensions_touched", "source": "normalized.file_extensions_touched", "mode": "list_count", "per_item": 5, "max": 30},
+      {"name": "shadow_copy_deletion", "source": "attack_patterns.shadow_copy_deletion", "mode": "bool", "weight": 25},
+      {"name": "crypto_activity", "source": "attack_patterns.crypto_activity", "mode": "bool", "weight": 20},
+      {"name": "ransomware_extension_activity", "source": "attack_patterns.ransomware_extension_activity", "mode": "bool", "weight": 25},
+      {"name": "backup_tampering", "source": "attack_patterns.backup_tampering", "mode": "bool", "weight": 20}
+    ],
+    "credential_access": [
+      {"name": "credential_access_indicators", "source": "normalized.credential_access_indicators", "mode": "list_count", "per_item": 25, "max": 75},
+      {"name": "credential_access_behavior", "source": "attack_patterns.credential_access", "mode": "bool", "weight": 30}
+    ],
+    "defense_evasion": [
+      {"name": "defense_evasion_indicators", "source": "normalized.defense_evasion_indicators", "mode": "list_count", "per_item": 20, "max": 60},
+      {"name": "lolbin_usage", "source": "normalized.lolbins", "mode": "list_count", "per_item": 10, "max": 40},
+      {"name": "injection_indicators", "source": "normalized.injection_indicators", "mode": "list_count", "per_item": 10, "max": 40},
+      {"name": "defender_tampering", "source": "attack_patterns.defender_tampering", "mode": "bool", "weight": 25},
+      {"name": "process_injection", "source": "attack_patterns.process_injection", "mode": "bool", "weight": 20},
+      {"name": "process_hollowing", "source": "attack_patterns.process_hollowing", "mode": "bool", "weight": 25}
+    ],
+    "c2": [
+      {"name": "suspicious_domains", "source": "normalized.suspicious_domains", "mode": "list_count", "per_item": 15, "max": 45},
+      {"name": "suspicious_connections", "source": "normalized.suspicious_connections", "mode": "list_count", "per_item": 12, "max": 48},
+      {"name": "lateral_movement", "source": "normalized.lateral_movement", "mode": "list_count", "per_item": 10, "max": 40},
+      {"name": "service_c2_surface", "source": "normalized.services", "mode": "list_count", "per_item": 5, "max": 20}
+    ]
+  },
+  "group_score_caps": {
+    "sum_cap": 100
+  },
+  "severity_weights": {
+    "ransomware": 0.35,
+    "credential_access": 0.15,
+    "defense_evasion": 0.2,
+    "persistence": 0.1,
+    "c2": 0.2
+  },
+  "confidence_inputs": [
+    {"source": "normalized.ransomware_indicators", "per_item": 5},
+    {"source": "normalized.credential_access_indicators", "per_item": 5},
+    {"source": "normalized.defense_evasion_indicators", "per_item": 5},
+    {"source": "normalized.persistence_indicators", "per_item": 5},
+    {"source": "normalized.suspicious_domains", "per_item": 4},
+    {"source": "normalized.suspicious_connections", "per_item": 4},
+    {"source": "normalized.ransom_notes", "per_item": 4},
+    {"source": "normalized.lolbins", "per_item": 2},
+    {"source": "normalized.injection_indicators", "per_item": 4},
+    {"source": "normalized.lateral_movement", "per_item": 4}
+  ],
+  "confidence_score_cap": 100,
+  "threat_score_weights": {
+    "severity_score": 0.35,
+    "confidence_score": 0.2,
+    "ransomware_score": 0.15,
+    "defense_evasion_score": 0.1,
+    "credential_score": 0.1,
+    "c2_score": 0.1
+  },
+  "risk_levels": [
+    {"name": "critical", "min": 85},
+    {"name": "high", "min": 70},
+    {"name": "medium", "min": 40},
+    {"name": "low", "min": 0}
+  ]
+}

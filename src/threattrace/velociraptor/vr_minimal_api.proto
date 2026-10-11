@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package proto;
+
+message ArtifactCollectorArgs {
+  repeated string artifacts = 2;
+  string client_id = 3;
+  uint64 timeout = 7;
+  bool urgent = 21;
+}
+
+message ArtifactCollectorResponse {
+  string flow_id = 1;
+  ArtifactCollectorArgs request = 2;
+}
+
+message NotificationRequest {
+  string client_id = 1;
+  bool notify_all = 2;
+}
+
+message Empty {}
+
+service API {
+  rpc CollectArtifact(ArtifactCollectorArgs) returns (ArtifactCollectorResponse) {}
+  rpc NotifyClients(NotificationRequest) returns (Empty) {}
+}

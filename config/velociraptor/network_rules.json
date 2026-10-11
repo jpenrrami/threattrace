@@ -1,0 +1,17 @@
+{
+  "validation_net": "",
+  "validation_bridge": "",
+  "libvirt_network_name": "",
+  "inetsim_ip": "",
+  "velociraptor_frontend_ip": "",
+  "velociraptor_frontend_port": 8001,
+  "velociraptor_gui_port": 8889,
+  "guest_test_timeout_ms": 1500,
+  "staging_port_min": 18000,
+  "staging_port_max": 18999,
+  "nft_table": "threattrace_vr_validation",
+  "bridge_table": "threattrace_vr_validation_bridge",
+  "network_backup_dir": "runtime_storage/network_backups",
+  "fake_tcp_ports": "1,7,9,13,17,19,21,25,37,53,79,80,110,113,443,465,990,995,2042,6667",
+  "fake_udp_ports": "1,7,9,13,17,19,37,53,69,123,514"
+}

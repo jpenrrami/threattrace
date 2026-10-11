@@ -1,0 +1,108 @@
+{
+  "attack_ttps": {
+    "shadow_copy_deletion": "T1490",
+    "registry_persistence": "T1547",
+    "scheduled_tasks": "T1053",
+    "credential_access": "T1003",
+    "defender_tampering": "T1562",
+    "crypto_activity": "T1486",
+    "lateral_movement": "T1021",
+    "process_injection": "T1055",
+    "service_creation": "T1543",
+    "backup_tampering": "T1490",
+    "wmi_persistence": "T1546",
+    "process_hollowing": "T1055"
+  },
+  "extra_ttp_sources": [
+    {"normalized_key": "scheduled_tasks", "ttp": "T1053"},
+    {"normalized_key": "services", "ttp": "T1543"},
+    {"normalized_key": "lateral_movement", "ttp": "T1021"}
+  ],
+  "ransom_extensions": {
+    "ryuk": "Ryuk-like",
+    "wncry": "WannaCry-like",
+    "locky": "Locky-like",
+    "conti": "Conti-like",
+    "akira": "Akira-like",
+    "blackcat": "BlackCat/ALPHV-like",
+    "alphv": "BlackCat/ALPHV-like",
+    "hive": "Hive-like",
+    "royal": "Royal-like",
+    "medusa": "MedusaLocker-like"
+  },
+  "suspicious_tlds": [
+    ".biz",
+    ".top",
+    ".xyz",
+    ".ru",
+    ".cn",
+    ".su",
+    ".onion"
+  ],
+  "ransom_note_patterns": [
+    "readme",
+    "decrypt",
+    "recover",
+    "how_to_restore",
+    "ransom",
+    "restore_files"
+  ],
+  "sample_classification_rules": [
+    {
+      "category": "ransomware_locker",
+      "all_attack_patterns": ["crypto_activity"],
+      "any_attack_patterns": ["shadow_copy_deletion", "backup_tampering"]
+    },
+    {
+      "category": "ransomware_extortion",
+      "any_normalized_nonempty": ["ransom_notes"]
+    },
+    {
+      "category": "stealth_loader",
+      "all_attack_patterns": ["process_hollowing", "defender_tampering"]
+    },
+    {
+      "category": "credential_theft",
+      "all_attack_patterns": ["credential_access"],
+      "none_attack_patterns": ["crypto_activity"]
+    },
+    {
+      "category": "worm_like",
+      "any_normalized_nonempty": ["lateral_movement"]
+    },
+    {
+      "category": "trojan_loader",
+      "all_attack_patterns": ["defender_tampering"],
+      "any_normalized_nonempty": ["suspicious_domains", "suspicious_connections"]
+    },
+    {
+      "category": "loader",
+      "all_attack_patterns": ["process_injection"]
+    }
+  ],
+  "family_hint_rules": [
+    {"hint_source": "ransom_extensions", "normalized_list": "file_extensions_touched", "match_mode": "contains_key"},
+    {"hint": "Suspicious-TLD-Infrastructure", "normalized_list": "suspicious_domains", "match_mode": "contains_any_fragment", "fragments_source": "suspicious_tlds"},
+    {"hint": "Active-C2-Connections", "normalized_list": "suspicious_connections", "match_mode": "nonempty"},
+    {"hint": "Ransom-note-artifact", "normalized_list": "ransom_notes", "match_mode": "contains_any_fragment", "fragments_source": "ransom_note_patterns"},
+    {"hint": "BlackCat/ALPHV-like", "normalized_list": "mutexes", "match_mode": "contains_any_fragment", "fragments": ["blackcat", "alphv"]},
+    {"hint": "Generic-modern-ransomware", "all_attack_patterns": ["shadow_copy_deletion", "crypto_activity"]},
+    {"hint": "Recovery-Prevention-Techniques", "all_attack_patterns": ["backup_tampering"]},
+    {"hint": "Worm-ransomware-hybrid", "all_attack_patterns": ["crypto_activity"], "any_normalized_nonempty": ["lateral_movement"]},
+    {"hint": "EDR-evasion", "all_attack_patterns": ["defender_tampering"]},
+    {"hint": "Suspicious-C2-Infrastructure", "normalized_list": "suspicious_domains", "match_mode": "nonempty"},
+    {"hint": "Enterprise-spread", "all_attack_patterns": ["credential_access"], "any_normalized_nonempty": ["lateral_movement"]}
+  ],
+  "campaign_features": {
+    "has_shared_network_iocs": "network_indicators",
+    "has_mutexes": "mutexes",
+    "has_persistence": "persistence_indicators",
+    "has_lateral_movement": "lateral_movement",
+    "has_ransom_notes": "ransom_notes",
+    "has_suspicious_domains": "suspicious_domains",
+    "has_suspicious_connections": "suspicious_connections",
+    "has_defender_evasion": "attack_patterns.defender_tampering",
+    "has_process_injection": "injection_indicators"
+  },
+  "campaign_feature_weight": 10
+}

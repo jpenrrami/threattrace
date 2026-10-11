@@ -1,0 +1,35 @@
+{
+  "derived_update_targets": [
+    "cape_reports derived enrichment columns except raw_json",
+    "ioc_reports",
+    "sample_iocs",
+    "sample_artifacts",
+    "sample_attack_techniques",
+    "sample_behavior_scores",
+    "processed report files only if --regenerate-reports is enabled"
+  ],
+  "allowed_ioc_types": [
+    "ip",
+    "domain",
+    "url",
+    "file",
+    "registry",
+    "mutex",
+    "process"
+  ],
+  "score_defaults": {
+    "credential_indicator_score": 80,
+    "defense_evasion_indicator_score": 80
+  },
+  "default_campaign_features": {
+    "suspicious_connections": [],
+    "protocols": [],
+    "dns_activity": []
+  },
+  "row_count_keys": [
+    "sample_iocs",
+    "sample_artifacts",
+    "sample_attack_techniques",
+    "sample_behavior_scores"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "attack_patterns": {
+    "shadow_copy_deletion": {
+      "source": "command_blob",
+      "match_any": ["vssadmin delete", "wmic shadowcopy delete", "bcdedit"]
+    },
+    "defender_tampering": {
+      "source": "command_blob",
+      "match_any": ["defender", "mpcmdrun", "disableantispyware"]
+    },
+    "registry_persistence": {
+      "source": "summary_nonempty",
+      "summary_key": "write_keys"
+    },
+    "scheduled_tasks": {
+      "source": "command_blob",
+      "match_any": ["schtasks"]
+    },
+    "service_creation": {
+      "source": "command_blob",
+      "match_any": ["sc create", "sc start", "sc  start", "net start"]
+    },
+    "credential_access": {
+      "source": "command_blob",
+      "match_any": ["mimikatz", "lsass"]
+    },
+    "ransomware_activity": {
+      "source": "signature_blob",
+      "match_any": ["ransom", "encrypt", "locker"]
+    }
+  },
+  "scheduled_task_tokens": ["schtasks"],
+  "service_command_prefixes": ["sc ", "sc.exe ", "net start"],
+  "lolbin_tokens": [
+    "powershell",
+    "cmd.exe",
+    "rundll32",
+    "regsvr32",
+    "mshta",
+    "wmic",
+    "certutil",
+    "bitsadmin"
+  ],
+  "ransomware_indicator_mappings": [
+    {"pattern": "shadow_copy_deletion", "indicator": "shadow_copy_deletion"},
+    {"pattern": "ransomware_activity", "indicator": "signature_ransomware"}
+  ],
+  "credential_indicator_mappings": [
+    {"pattern": "credential_access", "indicator": "credential_access"}
+  ],
+  "defense_evasion_indicator_mappings": [
+    {"pattern": "defender_tampering", "indicator": "defender_tampering"},
+    {"condition": "lolbins_nonempty", "indicator": "lolbins_usage"}
+  ]
+}

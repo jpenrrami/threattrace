@@ -1,0 +1,23 @@
+{
+  "open_pipeline_states": [
+    "queued",
+    "downloading",
+    "downloaded",
+    "submitted",
+    "running",
+    "rerunning",
+    "completed",
+    "reported",
+    "fetching_report"
+  ],
+  "supported_ransomware_file_types": [
+    "exe",
+    "dll",
+    "zip"
+  ],
+  "supported_architectures": [
+    "x86",
+    "x64",
+    "unknown"
+  ]
+}

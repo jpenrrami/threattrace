@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "threattrace"
+version = "0.1.0"
+description = "Ransomware analysis pipeline with CAPE processing, IoC extraction, and Velociraptor validation artifacts."
+readme = "README.md"
+requires-python = ">=3.13,<3.15"
+keywords = ["ransomware", "malware-analysis", "cape", "velociraptor", "dfir", "ioc"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Security",
+    "Topic :: System :: Monitoring",
+]
+dependencies = [
+    "celery>=5.4.0,<6.0.0",
+    "grpcio>=1.80.0,<2.0.0",
+    "psycopg[binary]>=3.2.1,<4.0.0",
+    "protobuf>=6.33.0,<7.0.0",
+    "requests>=2.32.0,<3.0.0",
+    "SQLAlchemy>=2.0.36,<3.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.12.0,<1.0.0",
+]
+vr = [
+    "pywinrm>=0.5.0,<1.0.0",
+]
+all = [
+    "pywinrm>=0.5.0,<1.0.0",
+]
+
+[project.scripts]
+threattrace = "threattrace.cli.ops:main"
+threattrace-vr-process-sample = "threattrace.velociraptor.vr_process_sample:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.data-files]
+"config/cape" = ["config/cape/*.json"]
+"config/db" = ["config/db/*.json"]
+"config/detection" = ["config/detection/*.json"]
+"config/pipeline" = ["config/pipeline/*.json"]
+"config/velociraptor" = ["config/velociraptor/*.json", "config/velociraptor/*.yaml"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/threattrace/velociraptor/vr_minimal_api_pb2*.py" = ["ALL"]

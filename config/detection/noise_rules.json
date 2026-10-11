@@ -1,0 +1,174 @@
+{
+  "regex": {
+    "attack_id": "^t\\d{4}(?:\\.\\d{3})?$",
+    "hash": "\\b[a-f0-9]{32}(?:[a-f0-9]{8})?(?:[a-f0-9]{24})?\\b",
+    "generic_process": "^(?:cmd|powershell|explorer|svchost|rundll32|regsvr32|wscript|mshta|wmiprvse|conhost)(?:\\.exe)?$",
+    "suspicious_process": "\\b(?:-enc|-encodedcommand|downloadstring|iex|invoke-webrequest|iwr|bypass|hidden|nop|frombase64string|bitsadmin|certutil|vssadmin|wbadmin|bcdedit|wevtutil|schtasks|set-mppreference|add-mppreference|delete\\s+shadows|shadowcopy|recoveryenabled|ignoreallfailures|sc\\s+(?:create|config|start|failure|sdset)|net\\s+start|new-service|set-service|start-service|schtasks(?:\\.exe)?\\s+(?:/|-)(?:create|change|run|delete)|register-scheduledtask|start-scheduledtask|unregister-scheduledtask)\\b",
+    "ransom_note": "(?:readme|decrypt|restore|recover|ransom|how_to).*\\.(?:txt|html|hta)$",
+    "ransom_ext": "\\.(?:locked|encrypted|crypt|cryp1|pay|ransom|wncry)$",
+    "suspicious_file": "\\\\[^\\\\]+\\.(?:exe|dll|ps1|vbs|js|hta|bat|cmd|scr)$",
+    "persistence": "\\\\(?:run|runonce|services|winlogon|scheduled\\s*tasks?|taskcache|tasks)\\\\?",
+    "mutex_random": "^(?:global\\\\|local\\\\)?[a-z0-9_-]{10,}$",
+    "windows_system_dll": "^c:\\\\windows\\\\(?:system32|syswow64|sysnative)\\\\(?:windowspowershell\\\\v1\\.0\\\\(?:.*\\\\)?)?(?:propsys|cryptsp)\\.dll$",
+    "dotnet_gac": "^c:\\\\windows\\\\assembly\\\\gac(?:_32|_64|_msil)?\\\\",
+    "dotnet_nativeimage": "^c:\\\\windows\\\\assembly\\\\nativeimages",
+    "dotnet_nativeimage_file": "\\\\(?:mscorlib|system\\.configuration|system\\.drawing|system\\.serviceprocess|system\\.windows\\.forms)\\.ni\\.dll(?:\\.aux)?$|\\.ni\\.dll(?:\\.aux)?$",
+    "powershell_resource": "^c:\\\\windows\\\\(?:system32|syswow64)\\\\windowspowershell\\\\v1\\.0\\\\.*system\\.management\\.automation\\.resources\\.(?:dll|exe)$|system\\.management\\.automation\\.resources\\.(?:dll|exe)$",
+    "generic_system_dll": "^c:\\\\windows\\\\(system32|syswow64|sysnative)\\\\[^\\\\]+\\.dll$",
+    "generic_windows_root_dll": "^c:\\\\windows\\\\(?:srvcli|netutils|kernel\\.appcore|kernelbase|logoncli|samcli|wkscli|tzres|dsrole|profapi|schedcli|winsta|wldp|wtsapi32|rpcss|samlib|vssapi|vsstrace|winnsi|urlmon|nsi|shcore|bcryptprimitives|ntmarta|iphlpapi|uxtheme|advapi32|iertutil|kernel32|windows\\.storage|ntdll)\\.dll$",
+    "generic_system_exe": "^c:\\\\windows\\\\(?:system32|syswow64|sysnative)\\\\[^\\\\]+\\.exe$",
+    "generic_system_scr": "^c:\\\\windows\\\\system32\\\\(?:photoscreensaver|scrnsave)\\.scr$",
+    "generic_windows_component_store": "^c:\\\\windows\\\\winsxs\\\\",
+    "generic_windows_language_pack": "^c:\\\\program files\\\\windowsapps\\\\microsoft\\.languageexperiencepack",
+    "generic_windows_locale_resource": "^c:\\\\windows\\\\(?:system32|syswow64)\\\\[a-z]{2}-[a-z]{2}\\\\[^\\\\]+\\.(?:mui|dll|exe)$",
+    "generic_windows_root_exe": "^c:\\\\windows\\\\[^\\\\]+\\.(?:exe|scr)$",
+    "generic_windows_root_library": "^c:\\\\windows\\\\[^\\\\]+\\.(?:dll|vbs)$",
+    "generic_system_script": "^c:\\\\windows\\\\(?:system32|syswow64|sysnative)\\\\[^\\\\]+\\.(?:vbs|ps1|cmd|bat)$",
+    "powershell_base_file": "^c:\\\\windows\\\\(?:system32|syswow64)\\\\windowspowershell\\\\v1\\.0\\\\(?:modules\\\\modules\\.dll|powershell\\.exe|profile\\.ps1)$",
+    "windows_malware_file": "^c:\\\\windows\\\\(?:mssecsvc|mssecsvr|tasksche)\\.exe$|^c:\\\\(?:akira_readme\\.txt|[a-f0-9]{32}\\.arika)$|^c:\\\\recovery\\\\oem\\\\.*\\.arika$|^c:\\\\\\$recycle\\.bin\\\\.*\\.bat$",
+    "non_public_ip_path_fragment": "(?:^|\\\\)(?:10|127|192\\.168|172\\.(?:1[6-9]|2\\d|3[0-1]))\\.",
+    "registry_service_generic": "^hkey_local_machine\\\\system\\\\(?:currentcontrolset|controlset\\d+)\\\\services\\\\(?:eventlog|tcpip|dnscache|lanman|netlogon|w32time|windefend|mpssvc|bfe|cryptsvc|schedule|eventsystem|winmgmt|acpi|intelppm|monitor|mssmbios|ndis)(?:\\\\|$)",
+    "registry_driver_service": "^hkey_local_machine\\\\system\\\\(?:currentcontrolset|controlset\\d+)\\\\services\\\\(?:acpi|intelppm|monitor|mssmbios|ndis)\\\\(?:imagepath|mofimagepath)$",
+    "registry_generic_appid": "^hkey_local_machine\\\\software\\\\classes\\\\appid\\\\(?:rundll32\\.exe(?:\\\\appid)?|\\{[0-9a-f-]+\\}\\\\runas)$"
+  },
+  "sets": {
+    "lolbin_file_names": [
+      "vssadmin.exe",
+      "bcdedit.exe",
+      "wbadmin.exe",
+      "wevtutil.exe",
+      "schtasks.exe",
+      "cipher.exe",
+      "powershell.exe",
+      "rundll32.exe",
+      "regsvr32.exe",
+      "wmic.exe"
+      ,"bitsadmin.exe"
+      ,"certutil.exe"
+      ,"slmgr.vbs"
+    ],
+    "generic_mutexes": [
+      "global\\adap_wmi_entry",
+      "global\\refreshra_mutex",
+      "global\\refreshra_mutex_flag",
+      "global\\refreshra_mutex_lib",
+      "local\\zonescachecountermutex",
+      "local\\zoneslockedcachecountermutex",
+      "global\\syncrootmanager"
+    ],
+    "generic_roots": [
+      "c:",
+      "c:\\",
+      "c:\\*",
+      "c:\\users",
+      "c:\\users\\*",
+      "c:\\program files",
+      "c:\\program files (x86)",
+      "c:\\archivos de programa",
+      "c:\\documents and settings",
+      "c:\\perflogs",
+      "c:\\dumpstack.log.tmp"
+    ],
+    "registry_roots": [
+      "hkey_current_user",
+      "hkey_local_machine",
+      "hkey_classes_root",
+      "hkey_users",
+      "hkey_current_config"
+    ],
+    "pseudo_domain_values": [
+      "localhost",
+      "localdomain",
+      "wpad",
+      "isatap",
+      "teredo"
+    ]
+  },
+  "fragments": {
+    "sandbox_paths": [
+      "c:\\users\\cuckoo",
+      "c:\\agents",
+      "\\agent.py"
+    ],
+    "generic_root_fragments": [
+      "c:\\program files\\",
+      "c:\\program files (x86)\\",
+      "c:\\archivos de programa\\",
+      "\\appdata\\local\\package cache",
+      "\\documents and settings",
+      "\\perflogs",
+      "\\dumpstack.log.tmp"
+    ],
+    "generic_windows_component_fragments": [
+      "\\windows\\shellexperiences\\",
+      "\\windows\\shellcomponents\\",
+      "\\windows\\immersivecontrolpanel\\",
+      "\\windows\\printdialog\\",
+      "\\windows\\servicing\\",
+      "\\windows\\bitlockerdiscoveryvolumecontents\\",
+      "\\windows\\apppatch\\",
+      "\\windows\\ime\\"
+    ],
+    "device_fragments": [
+      "\\device\\cng",
+      "\\device\\namedpipe",
+      "\\??\\physicaldrive0",
+      "\\??\\conout$",
+      "mountpointmanager",
+      "wmidatadevice"
+    ],
+    "pipe_fragments": [
+      "\\pipe\\lsarpc",
+      "\\pipe\\srvsvc",
+      "\\pipe\\pipe_eventroot",
+      "pipe\\lsarpc",
+      "pipe\\srvsvc",
+      "pipe\\pipe_eventroot"
+    ],
+    "wmi_fragments": [
+      "\\wbem",
+      "\\wmi",
+      "\\cimv2"
+    ],
+    "powershell_profile_fragments": [
+      "\\windowspowershell\\modules",
+      "\\windowspowershell\\profile.ps1"
+    ],
+    "registry_generic_fragments": [
+      "\\control panel\\international",
+      "\\control\\nls",
+      "\\control\\session manager",
+      "\\software\\microsoft\\windows nt\\currentversion\\gre_initialize",
+      "languageoverlay"
+    ],
+    "benign_domain_fragments": [
+      "microsoft.com",
+      "windows.com",
+      "windowsupdate",
+      "windowsupdate.com",
+      "digicert",
+      "digicert.com",
+      "digicert.net",
+      "ocsp.",
+      "crl.",
+      "time.windows.com"
+    ],
+    "suspicious_context_join_keys": [
+      "source",
+      "suggested_detector",
+      "generalization_value",
+      "false_positive_risk"
+    ],
+    "registry_suspicious_literals": [
+      "imagepath",
+      "run",
+      "taskcache",
+      "\\tasks\\"
+    ],
+    "velociraptor_temp_file_fragments": [
+      "\\appdata\\local\\temp",
+      "\\cbstemp\\",
+      "windows10.0"
+    ]
+  }
+}
