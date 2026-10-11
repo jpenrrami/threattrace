@@ -7,10 +7,10 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-from threattrace.common.json_config import load_json_config
+from threattrace.common.json_config import config_path, load_json_config
 
 ROOT_DIR = Path(__file__).resolve().parents[4]
-CONFIG_PATH = ROOT_DIR / "config" / "detection" / "observability_rules.json"
+CONFIG_PATH = config_path("detection", "observability_rules.json")
 
 
 @lru_cache(maxsize=1)

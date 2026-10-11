@@ -71,7 +71,7 @@ def ensure_rerunning_state() -> None:
                             'reported',
                             'done',
                             'error'
-                        ]
+                        ]::public.analysis_state[]
                     )
                 )
                 """

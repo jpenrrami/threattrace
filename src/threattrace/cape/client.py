@@ -10,11 +10,11 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from threattrace.common.json_config import load_json_config
+from threattrace.common.json_config import config_path, load_json_config
 from threattrace.config.settings import get_settings
 
 ROOT_DIR = Path(__file__).resolve().parents[3]
-CAPE_CLIENT_CONFIG_PATH = ROOT_DIR / "config" / "cape" / "client_rules.json"
+CAPE_CLIENT_CONFIG_PATH = config_path("cape", "client_rules.json")
 
 
 @lru_cache(maxsize=1)

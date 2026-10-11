@@ -10,7 +10,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from threattrace.common.json_config import load_json_config
+from threattrace.common.json_config import config_path, load_json_config
 from threattrace.detection.noise import classify_noise, has_suspicious_context
 
 
@@ -18,7 +18,7 @@ def _artifact_name(stem: str) -> str:
     return f"ThreatTrace.Detection.{stem.replace('-', '_').replace(' ', '_')}"
 
 ROOT_DIR = Path(__file__).resolve().parents[3]
-CONFIG_DIR = ROOT_DIR / "config" / "velociraptor"
+CONFIG_DIR = config_path("velociraptor", "default_globs.json").parent
 _FALLBACK_FILE_GLOBS = (
     "C:/Users/*/AppData/Local/Temp/**,"
     "C:/Users/*/AppData/Roaming/**,"

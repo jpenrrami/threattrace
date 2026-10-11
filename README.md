@@ -34,6 +34,75 @@ sample require explicit execution and confirmation flags.
 - CAPE for sandbox workflows
 - Velociraptor, libvirt/KVM, and optionally WinRM for endpoint validation
 
+## Docker quick start
+
+Docker Compose starts only PostgreSQL, Redis, and a short-lived volume-permission
+initializer by default. It does not start ingestion, CAPE submissions, sample
+downloads, endpoint validation, or a Celery worker.
+
+Install Docker Engine and the Docker Compose plugin using your platform's
+official instructions, then:
+
+```bash
+git clone <repository-url> threattrace
+cd threattrace
+cp .env.example .env
+chmod 600 .env
+# Edit .env: set THREATTRACE_POSTGRES_PASSWORD and lab-specific external endpoints.
+docker compose --profile cli build
+docker compose up -d --wait
+```
+
+The Compose database and broker are internal-only: no PostgreSQL or Redis port
+is published on the host. Persistent named volumes are `postgres-data`,
+`redis-data`, and `runtime-data`. The last volume can contain analysis outputs
+and, if explicitly requested by an operator, sensitive sample material; do not
+export or share it casually.
+
+Initialize a new empty database explicitly. `db init` verifies an existing
+schema and refuses incompatible schemas; it does not reset or migrate one.
+
+```bash
+docker compose run --rm threattrace threattrace --help
+docker compose run --rm threattrace threattrace db init --dry-run
+docker compose run --rm threattrace threattrace db init
+```
+
+Run other safe CLI commands the same way, for example
+`docker compose run --rm threattrace threattrace detection --help`.
+Operations that ingest data, download material, submit CAPE tasks, or contact
+endpoints remain explicit CLI actions and are never scheduled by Compose.
+
+Enable the Celery worker only after reviewing its external-service settings and
+the queued work:
+
+```bash
+docker compose --profile workers up -d worker
+docker compose logs -f worker
+```
+
+There is no always-on scheduler service in this codebase. Daily-batch dispatch
+is an explicit `threattrace cape batch` CLI operation. CAPE and Velociraptor are
+external services: set their routable endpoints and credentials in `.env`; do
+not use `127.0.0.1` for a host-side service from inside a container. Compose
+does not mount KVM, libvirt, WinRM, host networking, devices, or the Docker
+socket. Commands that require those host capabilities must run in suitably
+isolated external infrastructure.
+
+Useful lifecycle commands:
+
+```bash
+docker compose ps
+docker compose logs postgres redis
+docker compose down                 # keeps named volumes
+docker compose pull && docker compose --profile cli build
+docker compose up -d --wait
+```
+
+For a clean installation, remove only the named volumes created for this
+project after backing up data you need. Do not use broad volume-pruning
+commands.
+
 ## Install
 
 ```bash

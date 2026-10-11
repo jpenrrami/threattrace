@@ -97,9 +97,11 @@ def expected_contract(metadata: MetaData, dialect) -> dict[str, object]:
                 for constraint in table.foreign_key_constraints
             ),
             "unique_constraints": sorted(
-                tuple(column.name for column in constraint.columns)
-                for constraint in table.constraints
-                if constraint.__class__.__name__ == "UniqueConstraint"
+                {
+                    tuple(column.name for column in constraint.columns)
+                    for constraint in table.constraints
+                    if constraint.__class__.__name__ == "UniqueConstraint"
+                }
             ),
             "check_constraints": {
                 constraint.name

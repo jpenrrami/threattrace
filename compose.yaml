@@ -1,0 +1,138 @@
+name: threattrace
+
+services:
+  postgres:
+    image: postgres:17.4-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${THREATTRACE_POSTGRES_DB:?set THREATTRACE_POSTGRES_DB in .env}
+      POSTGRES_USER: ${THREATTRACE_POSTGRES_USER:?set THREATTRACE_POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${THREATTRACE_POSTGRES_PASSWORD:?set THREATTRACE_POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    networks:
+      - backend
+
+  redis:
+    image: redis:7.4.2-alpine
+    command: ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec"]
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
+    networks:
+      - backend
+
+  runtime-init:
+    image: threattrace:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: "0:0"
+    profiles: ["cli", "workers"]
+    network_mode: "none"
+    restart: "no"
+    volumes:
+      - runtime-data:/var/lib/threattrace
+    command:
+      - sh
+      - -ec
+      - >-
+        mkdir -p /var/lib/threattrace/{malware,reports,logs,state,processed_reports,cape_storage,archives,velociraptor_batch_logs};
+        chown -R 10001:10001 /var/lib/threattrace
+
+  threattrace:
+    image: threattrace:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    profiles: ["cli"]
+    env_file:
+      - .env
+    environment:
+      THREATTRACE_DATABASE_URL: postgresql+psycopg://${THREATTRACE_POSTGRES_USER}:${THREATTRACE_POSTGRES_PASSWORD}@postgres:5432/${THREATTRACE_POSTGRES_DB}
+      THREATTRACE_REDIS_URL: redis://redis:6379/0
+      THREATTRACE_STORAGE_ROOT: /var/lib/threattrace
+      THREATTRACE_MALWARE_ROOT: /var/lib/threattrace/malware
+      THREATTRACE_REPORT_ROOT: /var/lib/threattrace/reports
+      THREATTRACE_MALSHARE_DOWNLOAD_DIR: /var/lib/threattrace/malshare
+      THREATTRACE_CAPE_STORAGE_PATH: /var/lib/threattrace/cape_storage
+      THREATTRACE_VR_NETWORK_BACKUP_DIR: /var/lib/threattrace/network_backups
+      THREATTRACE_VR_CAPE_BINARY_FALLBACK: /var/lib/threattrace/cape_storage/binaries
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      runtime-init:
+        condition: service_completed_successfully
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    volumes:
+      - runtime-data:/var/lib/threattrace
+    networks:
+      - backend
+      - external-services
+
+  worker:
+    image: threattrace:local
+    profiles: ["workers"]
+    env_file:
+      - .env
+    environment:
+      THREATTRACE_DATABASE_URL: postgresql+psycopg://${THREATTRACE_POSTGRES_USER}:${THREATTRACE_POSTGRES_PASSWORD}@postgres:5432/${THREATTRACE_POSTGRES_DB}
+      THREATTRACE_REDIS_URL: redis://redis:6379/0
+      THREATTRACE_STORAGE_ROOT: /var/lib/threattrace
+      THREATTRACE_MALWARE_ROOT: /var/lib/threattrace/malware
+      THREATTRACE_REPORT_ROOT: /var/lib/threattrace/reports
+      THREATTRACE_MALSHARE_DOWNLOAD_DIR: /var/lib/threattrace/malshare
+      THREATTRACE_CAPE_STORAGE_PATH: /var/lib/threattrace/cape_storage
+      THREATTRACE_VR_NETWORK_BACKUP_DIR: /var/lib/threattrace/network_backups
+      THREATTRACE_VR_CAPE_BINARY_FALLBACK: /var/lib/threattrace/cape_storage/binaries
+    command: ["celery", "-A", "threattrace.workers.celery_app:app", "worker", "--loglevel=INFO"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      runtime-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    volumes:
+      - runtime-data:/var/lib/threattrace
+    networks:
+      - backend
+      - external-services
+
+volumes:
+  postgres-data:
+  redis-data:
+  runtime-data:
+
+networks:
+  backend:
+    internal: true
+  external-services:

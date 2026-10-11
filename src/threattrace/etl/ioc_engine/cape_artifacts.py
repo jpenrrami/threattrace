@@ -13,7 +13,7 @@ from urllib.parse import urlparse
 
 from threattrace.common.collections import coerce_dict, coerce_list, dedupe_strings_lower_preserve
 from threattrace.common.io import read_json_dict
-from threattrace.common.json_config import load_json_config
+from threattrace.common.json_config import config_path, load_json_config
 
 try:
     from bson import decode_all as _bson_decode_all
@@ -22,7 +22,7 @@ except Exception:  # pragma: no cover - optional dependency
 
 
 ROOT_DIR = Path(__file__).resolve().parents[4]
-CONFIG_PATH = ROOT_DIR / "config" / "detection" / "cape_artifact_rules.json"
+CONFIG_PATH = config_path("detection", "cape_artifact_rules.json")
 logger = logging.getLogger(__name__)
 
 

@@ -4,7 +4,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from threattrace.common.json_config import load_json_config
+from threattrace.common.json_config import config_path, load_json_config
 
 
 def _feature(
@@ -35,7 +35,7 @@ def _sum_features(features: list[dict[str, Any]]) -> int:
 
 
 ROOT_DIR = Path(__file__).resolve().parents[4]
-CONFIG_PATH = ROOT_DIR / "config" / "detection" / "scoring_rules.json"
+CONFIG_PATH = config_path("detection", "scoring_rules.json")
 
 
 @lru_cache(maxsize=1)

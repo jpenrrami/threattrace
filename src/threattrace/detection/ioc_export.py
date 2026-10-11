@@ -11,7 +11,7 @@ from typing import Any
 
 from sqlalchemy import select
 
-from threattrace.common.json_config import load_json_config
+from threattrace.common.json_config import config_path, load_json_config
 from threattrace.db.models import (
     AnalysisRun,
     IOCReport,
@@ -27,7 +27,7 @@ from threattrace.detection.noise import classify_noise
 from threattrace.etl.ioc_engine.observability import build_detection_candidate
 
 ROOT_DIR = Path(__file__).resolve().parents[3]
-IO_EXPORT_CONFIG_PATH = ROOT_DIR / "config" / "detection" / "ioc_export_rules.json"
+IO_EXPORT_CONFIG_PATH = config_path("detection", "ioc_export_rules.json")
 
 
 @lru_cache(maxsize=1)

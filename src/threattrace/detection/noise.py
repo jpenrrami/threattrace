@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any, Literal
 from urllib.parse import urlparse
 
-from threattrace.common.json_config import load_json_config
+from threattrace.common.json_config import config_path, load_json_config
 from threattrace.etl.ioc_engine.observability import normalize_registry_key, normalize_windows_path
 
 NoiseLayer = Literal["detection", "endpoint", "velociraptor"]
@@ -22,7 +22,7 @@ class NoiseDecision:
 
 
 ROOT_DIR = Path(__file__).resolve().parents[3]
-CONFIG_PATH = ROOT_DIR / "config" / "detection" / "noise_rules.json"
+CONFIG_PATH = config_path("detection", "noise_rules.json")
 
 
 @lru_cache(maxsize=1)

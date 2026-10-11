@@ -7,7 +7,7 @@ from typing import Any
 
 from threattrace.common import get_logger
 from threattrace.common.collections import coerce_dict, coerce_list, dedupe_preserve
-from threattrace.common.json_config import load_json_config
+from threattrace.common.json_config import config_path, load_json_config
 
 from .api import extract_api_iocs
 from .filesystem import extract_filesystem_iocs
@@ -20,7 +20,7 @@ from .threat_intel import default_family_hints, enrich_threat_intelligence
 
 logger = get_logger(__name__)
 ROOT_DIR = Path(__file__).resolve().parents[4]
-ORCHESTRATOR_CONFIG_PATH = ROOT_DIR / "config" / "detection" / "orchestrator_rules.json"
+ORCHESTRATOR_CONFIG_PATH = config_path("detection", "orchestrator_rules.json")
 
 
 @lru_cache(maxsize=1)

@@ -4,10 +4,10 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from threattrace.common.json_config import load_json_config
+from threattrace.common.json_config import config_path, load_json_config
 
 ROOT_DIR = Path(__file__).resolve().parents[4]
-CONFIG_PATH = ROOT_DIR / "config" / "detection" / "threat_intel_rules.json"
+CONFIG_PATH = config_path("detection", "threat_intel_rules.json")
 
 
 @lru_cache(maxsize=1)
